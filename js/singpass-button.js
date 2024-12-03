@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "An error has occurred. Please try again or manually fill up the form."
           );
         });
+      removeQueryParameter("PHPSESSID");
     }
   }
 });
@@ -149,7 +150,7 @@ function lockFieldsIfFilled() {
   // if (nationalityField.length && nationalityField.val()) {
   //   nationalityField.prop("disabled", true).css("background-color", "#e0e0e0");
   // }
-  
+
   // if (raceField.length && raceField.val()) {
   //   raceField.prop("disabled", true).css("background-color", "#e0e0e0");
   // }
