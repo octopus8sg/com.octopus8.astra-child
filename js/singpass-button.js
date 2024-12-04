@@ -1,22 +1,58 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Check if we are on the correct page
   if (document.body.classList.contains("page-id-571")) {
-    // Handle Singpass button click
     const button = document.getElementById("singpassButton");
 
-    if (button) {
-      button.addEventListener("click", function () {
-        console.log("The Singpass button is pressed");
+    // Hide the button if `nf_resume` is in the URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has("nf_resume")) {
+      if (button) {
+        button.style.display = "none"; // Hide button if `nf_resume` exists
+        console.log("nf_resume detected. Button hidden.");
+      }
+      return; // No need to continue if the button should be hidden
+    }
 
+    // Proceed with the rest of the logic if `nf_resume` is not present
+    if (button) {
+      button.style.display = "none"; // Initially hidden
+
+      const observer = new MutationObserver(() => {
+        const checkbox = document.querySelector(".donor_type");
+        if (checkbox) {
+          console.log("Checkbox found:", checkbox);
+          initializeCheckbox(checkbox, button); // Attach event listener or handle logic
+          observer.disconnect(); // Stop observing once the checkbox is found
+        }
+      });
+
+      observer.observe(document.body, { childList: true, subtree: true });
+
+      // Initialize checkbox logic
+      function initializeCheckbox(checkbox, button) {
+        // Set initial visibility based on the checkbox state
+        button.style.display = checkbox.checked ? "none" : "inline-flex";
+
+        // Add event listener for checkbox changes
+        checkbox.addEventListener("change", function () {
+          button.style.display = this.checked ? "none" : "inline-flex";
+        });
+      }
+
+      // Add click event to the button
+      button.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        console.log("The Singpass button is pressed");
         // Redirect to Singpass login URL
         window.location.href = "/?option=oauthredirect&app_name=SingPass";
       });
     } else {
-      console.log("Button not found. Check selector.");
+      console.error("Button not found. Check selector.");
     }
 
     // Handle error query parameter
-    const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get("error") === "true") {
       removeQueryParameter("error");
       alert(
