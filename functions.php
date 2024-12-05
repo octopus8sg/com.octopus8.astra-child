@@ -12,7 +12,8 @@ function enqueue_singpass_script()
 
     // Pass the AJAX URL to the script
     wp_localize_script('singpass-button-script', 'singpass_ajax', array(
-        'ajax_url' => admin_url('admin-ajax.php')
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'theme_url' => get_stylesheet_directory_uri()
     ));
 }
 add_action('wp_enqueue_scripts', 'enqueue_singpass_script');
