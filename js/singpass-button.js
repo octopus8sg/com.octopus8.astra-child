@@ -1,6 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Check if we are on the correct page
-  if (document.body.classList.contains("page-id-571")) {
+if (
+  document.body.classList.contains("page-id-872") ||
+  document.body.classList.contains("page-id-908")
+) {
     const urlParams = new URLSearchParams(window.location.search);
     const buttonContainer = document.querySelector(".button-container");
 
@@ -56,6 +59,8 @@ document.addEventListener("DOMContentLoaded", function () {
       button.addEventListener("click", function (event) {
         event.preventDefault();
         // console.log("The Singpass button is pressed");
+        // Store the current page URL in a cookie so that the user can be redirected back here after completing the OAuth login flow
+        document.cookie = "postOAuthRedirectUrl=" + encodeURIComponent(window.location.href) + "; path=/";
         window.location.href = "/?option=oauthredirect&app_name=SingPass";
       });
     }
@@ -209,6 +214,7 @@ function populateNinjaFormFields(data) {
   // const raceField = $("select.race");
   const addressField = $('input[name="address"');
   const postalCodeField = $('input[name="postal_code"]');
+  const floorUnitNoField = $('input[name="floor_unit_no"]');
 
   if (fullNameField.length) {
     fullNameField.val(data.full_name).trigger("input").trigger("change");
@@ -250,6 +256,10 @@ function populateNinjaFormFields(data) {
     postalCodeField.val(data.postal_code).trigger("input").trigger("change");
   }
 
+  if (floorUnitNoField.length) {
+    floorUnitNoField.val(data.floor_unit_no).trigger("input").trigger("change");
+  }
+
   lockFieldsIfFilled();
 }
 
@@ -264,6 +274,7 @@ function lockFieldsIfFilled() {
   // const raceField = $("select.race");
   const addressField = $('input[name="address"');
   const postalCodeField = $('input[name="postal_code"]');
+  const floorUnitNoField = $('input[name="floor_unit_no"]');
 
   if (fullNameField.length && fullNameField.val()) {
     fullNameField.prop("disabled", true).css("background-color", "#e0e0e0");
@@ -276,7 +287,7 @@ function lockFieldsIfFilled() {
   if (nricFinField.length && nricFinField.val()) {
     nricFinField.prop("disabled", true).css("background-color", "#e0e0e0");
   }
-
+  
   // if (sexField.length && sexField.val()) {
   //   sexField.prop("disabled", true).css("background-color", "#e0e0e0");
   // }
@@ -295,6 +306,10 @@ function lockFieldsIfFilled() {
 
   if (postalCodeField.length && postalCodeField.val()) {
     postalCodeField.prop("disabled", true).css("background-color", "#e0e0e0");
+  }
+
+   if (floorUnitNoField.length && floorUnitNoField.val()){
+     floorUnitNoField.prop("disabled", true).css("background-color", "#e0e0e0");
   }
 }
 
