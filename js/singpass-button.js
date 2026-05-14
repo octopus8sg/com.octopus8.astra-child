@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Check if we are on the correct page
-if (
-  document.body.classList.contains("page-id-872") ||
-  document.body.classList.contains("page-id-908")
-) {
+  if (
+    document.body.classList.contains("page-id-872") ||
+    document.body.classList.contains("page-id-908")
+  ) {
     const urlParams = new URLSearchParams(window.location.search);
     const buttonContainer = document.querySelector(".button-container");
 
